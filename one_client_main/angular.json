@@ -1,5 +1,8 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": "9facca0c-0eed-4e39-a429-70cbf9b5bace"
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
@@ -60,6 +63,14 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
+            },
+            "local": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.local.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -72,6 +83,9 @@
             },
             "development": {
               "browserTarget": "one_client_main:build:development"
+            },
+            "local": {
+              "browserTarget": "one_client_main:build:local"
             }
           },
           "defaultConfiguration": "development"

@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  apiDomain: 'https://shiny-overalls-seal.cyclic.app/v1' //main domain
+
 };
 
 /*
