@@ -1,0 +1,89 @@
+<div id="main-div" class="px-2 h-[calc(100vh-110px)] ml-3 pb-10">
+    <div class="py-2 px-5">
+        <div class="flex items-center justify-end static">
+            <div class="flex mt-2" (click)="$event.stopPropagation()">
+                <!-- <div>
+                    <button *ngIf="showAdvancedDashboard" type="button"
+                        class="  right-2 flex items-center primary-button mr-8" (click)="openInsightsSideBar()">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-4 h-4" id="insights">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                        </svg>&nbsp;Insights</button>
+                </div> -->
+            </div>
+            <div class="border border-gray-300 py-2 px-3 flex cursor-pointer items-center mt-2"
+                [ngClass]="{'rounded-bl-md rounded-tl-md': Index === 0, 'rounded-br-md rounded-tr-md': Index === dateList.length-1,  'bg-black': Index === selectedDateIndex, 'bg-white': Index !== selectedDateIndex  }"
+                *ngFor="let dateItem of dateList;let Index = index;" (click)="selectDate(dateItem, Index)">
+                <span *ngIf="dateItem.code === 'CUSTOM'" class="mr-1"
+                    [ngClass]="{'text-white': Index === selectedDateIndex}"><svg xmlns="http://www.w3.org/2000/svg"
+                        fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+                    </svg>
+                </span>
+                <p class="font-medium text-sm"
+                    [ngClass]="{'text-white': Index === selectedDateIndex, 'text-gray-700' : Index !== selectedDateIndex }">
+                    {{dateItem.displayName}}</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="graphs-div" class="h-full overflow-auto pb-2 px-3">
+        <!--Leads graph Section starts here-->
+        <div>
+            <div class="my-2">
+                <h1 class="text-gray-900 font-bold text-xl static"> Overview </h1>
+            </div>
+            <div class="overflow-auto">
+                <div id="leads-graphs" class="grid grid-cols-1 gap-4 pb-4">
+                    <!--region wise graph container starts here-->
+                    <div class="bg-white px-2 py-2 rounded-lg min-h-[calc(100vh-600px)] min-w-[calc(100vw-1200px)]">
+                        <div [hidden]="overViewGraphLoader">
+                            <div class="m-2">
+                                <h1 class="text-gray-500 font-bold text-xl"> Admin Tickets <span
+                                        class="text-black font-bold text-xl"> </span>
+                                </h1>
+                                <p class="text-gray-500 text-xs">Performance progress across admins</p>
+                            </div>
+                            <div id="overview-graph" class="mt-2" [hidden]="overViewGraphLoader || overViewGraphNoData">
+                                <div #leadsCountChart></div>
+                            </div>
+                            <div class="flex items-center justify-center" *ngIf="overViewGraphNoData">
+                                <img src="../../../assets/images/dashboard/bar_chart_no_data.svg">
+                            </div>
+                        </div>
+                        <div [hidden]="!showTotalLeadsGraphLoader">
+                            <p> Loader </p>
+                        </div>
+                    </div>
+                    <!--region wise graph container starts here-->
+
+                    <!--timeline wise graph container ends here-->
+                    <div class="bg-white px-2 py-2 rounded-lg min-h-[calc(100vh-600px)] min-w-[calc(100vw-1200px)]">
+                        <div [hidden]="showTotalLeadsGraphLoader">
+                            <div class="m-2">
+                                <h1 class="text-gray-500 font-bold text-xl"> Day wise progress <span
+                                        class="text-black font-bold text-xl"> </span>
+                                </h1>
+                                <p class="text-gray-500 text-xs">Performance progress day wise</p>
+                            </div>
+                            <div id="timeline-graph" class="mt-2" [hidden]="timelineGraphLoader || timelineGraphNoData">
+                                <div #leadsCountChart></div>
+                            </div>
+                            <div class="flex items-center justify-center" *ngIf="timelineGraphNoData">
+                                <img src="../../../assets/images/dashboard/bar_chart_no_data.svg">
+                            </div>
+                        </div>
+                        <div [hidden]="!timelineGraphLoader">
+                            <p> Loader </p>
+                        </div>
+                    </div>
+                    <!--timeline wise graph container ends here-->
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>

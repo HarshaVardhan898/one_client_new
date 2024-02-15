@@ -1,0 +1,189 @@
+<div id="main-div" class="px-2 h-[calc(100vh-110px)] ml-3 pb-10">
+
+    <div class="my-4">
+        <h1
+            class="mb-4 text-2xl font-bold leading-none tracking-tight text-gray-900 md:text-md lg:text-lg dark:text-white">
+            Admins details
+        </h1>
+    </div>
+
+    <div class="flex flex-row justify-end items-center py-2">
+        <div class="text-center flex items-center">
+            <button type="button"
+                class="px-3 py-2 text-sm text-primary-button-text bg-primary-button rounded-lg outline-none "
+                (click)="openModal()"> + Create Admin
+            </button>
+        </div>
+    </div>
+
+    <div class=" shadow-md sm:rounded-lg h-full mb-10 overflow-auto">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 relative">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 relative ">
+                <tr>
+                    <th scope="col" class="px-6 py-3" *ngFor="let header of adminDetailsHeaders">
+                        {{header}}
+                    </th>
+                    <th>
+                        Action
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody class="overflow-y-auto h-full ">
+                <tr *ngFor="let admin of adminDetailsList; let index = index"
+                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <img class="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-1.jpg"
+                                    *ngIf="admin?.profileImageUrl" alt="Neil image">
+                                <span
+                                    class="bg-sky-300  w-8 h-8 flex text-xs justify-center items-center rounded-full uppercase font-normal">
+                                    <span class="text-xs font-normal leading-none">{{
+                                        admin.firstName[0] |
+                                        uppercase}}{{admin.lastName[0]
+                                        |uppercase}}</span>
+                                </span>
+                            </div>
+                            <div class="flex-1 min-w-0 ms-4">
+                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                    {{ admin?.firstName }} {{ admin?.lastName }}
+                                </p>
+                                <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                    {{admin?.email}}
+                                </p>
+                            </div>
+                        </div>
+                    </th>
+                    <td class="px-6 py-4">
+                        {{admin?.region}}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{admin.employeeCount}}
+                    </td>
+                    <td class="px-6 py-4">
+                        <span class="inline-flex items-center">
+                            <span>
+                                <svg class="h-3 w-3" fill="currentColor" [ngStyle]="{'color':'green'}" viewBox="0 0 8 8"
+                                    *ngIf="admin?.status === 'active'">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
+                                <svg class="h-3 w-3" fill="currentColor" [ngStyle]="{'color':'red'}" viewBox="0 0 8 8"
+                                    *ngIf="admin?.status === 'inactive'">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
+                                <svg class="h-3 w-3" fill="currentColor" [ngStyle]="{'color':'blue'}" viewBox="0 0 8 8"
+                                    *ngIf="admin?.status === 'leave'">
+                                    <circle cx="4" cy="4" r="3" />
+                                </svg>
+                            </span>
+                            <span class="ml-3"> {{admin.status | titlecase}} </span>
+                        </span>
+
+                    </td>
+                    <td>
+
+
+                        <label class="relative inline-flex items-center me-5 cursor-pointer">
+                            <input type="checkbox" value="" class="sr-only peer" [checked]="admin.status=== 'active'"
+                                (change)="changeStatus(admin)">
+                            <div
+                                class="w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600">
+                            </div>
+                        </label>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="overlay" class="relative z-10 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+        <div class="fixed inset-0 z-10 overflow-y-auto">
+            <div class="flex h-full w-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+
+                <!--Login Form -->
+
+
+
+
+                <form class=" mx-auto bg-white px-8 py-8 rounded-lg" style="width: 44%;">
+                    <div class="flex flex-row justify-between space-x-2 ">
+                        <div class="mb-5 w-full">
+                            <label for="firstName"
+                                class="block mb-2 text-sm text-left font-medium text-gray-900 dark:text-white">
+                                First Name </label>
+                            <input type="text" id="firstName"
+                                class="shadow-sm bg-gray-50 border  border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                                placeholder="Enter First Name" (input)="giveInput('firstName', $event)">
+                        </div>
+
+                        <div class="mb-5 w-full">
+                            <label for="lastName"
+                                class="block mb-2 text-left text-sm font-medium text-gray-900 dark:text-white">
+                                Last Name </label>
+                            <input type="text" id="lastName"
+                                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                                placeholder="Enter Last Name" (input)="giveInput('lastName', $event)">
+                        </div>
+                    </div>
+                    <div class="flex flex-row justify-between space-x-2 my-3">
+                        <div class="mb-5 w-full">
+                            <label for="email"
+                                class="block mb-2 text-sm text-left font-medium text-gray-900 dark:text-white">
+                                Email </label>
+                            <input type="email" id="email"
+                                class="shadow-sm bg-gray-50 border  border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                                placeholder="name@user.com" (input)="giveInput('email', $event)">
+                        </div>
+
+                        <div class="mb-5 w-full">
+                            <label for="number"
+                                class="block mb-2 text-left text-sm font-medium text-gray-900 dark:text-white">
+                                Mobile Number </label>
+                            <input type="number" id="number"
+                                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                                placeholder="9854474555" (input)="giveInput('phone', $event)">
+                        </div>
+                    </div>
+
+                    <div class="flex flex-row justify-between space-x-2 my-3">
+                        <div class="mb-5 w-full">
+                            <label for="password"
+                                class="block text-left mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                Create Password </label>
+                            <input type="text" id="password" placeholder="Password"
+                                (input)="giveInput('createPassword', $event)"
+                                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                        </div>
+
+                        <div class="mb-5 w-full">
+                            <label for="email"
+                                class="block mb-2 text-left text-sm font-medium text-gray-900 dark:text-white">
+                                Confirm Password </label>
+                            <input type="text" id="password" (input)="giveInput('confirmPassword', $event)"
+                                class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                                placeholder="Password">
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <div>
+                            <button type="submit" (click)="createUser()"
+                                class="ml-auto px-5 py-2.5 text-sm text-primary-button-text bg-primary-button rounded-lg outline-none">
+                                Create</button>
+
+                            <button (click)="closeAdminCreateModal()"
+                                class="ml-3 text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+                                Close</button>
+                        </div>
+                    </div>
+                </form>
+
+                <!--Login Form -->
+            </div>
+        </div>
+    </div>
+
+</div>
